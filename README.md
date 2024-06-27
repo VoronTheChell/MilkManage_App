@@ -30,7 +30,7 @@ MilkManage_App - это приложение для автоматизации �
 1. Клонируйте репозиторий:
 
     ```bash
-    git clone https://github.com/yourusername/MilkManage_App.git
+    git clone https://github.com/VoronTheChell/MilkManage_App.git
     ```
 
 2. Откройте проект в Visual Studio.
