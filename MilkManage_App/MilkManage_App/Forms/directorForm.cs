@@ -769,30 +769,26 @@ namespace MilkManage_App.Forms
                 DataGridView activeDataGridView = null;
                 string nameTable = "";
 
+                // Создаем словарь для соответствия вкладок DataGridView и названий таблиц
+                Dictionary<TabPage, (DataGridView, string)> tabPageMappings = new Dictionary<TabPage, (DataGridView, string)>
+                {
+                    { tabPageEmployees, (dataGridViewEmployees, "Сотрудников") },
+                    { tabPageProducts, (dataGridViewProducts, "Продукции") },
+                    { tabPageOrders, (dataGridViewOrders, "Заказов") },
+                    { tabPageDeliveries, (dataGridViewDeliveries, "Поставок") }
+                };
+
                 // Определение активного DataGridView в зависимости от выбранной вкладки
-                if (tabControl.SelectedTab == tabPageEmployees)
+                if (tabPageMappings.ContainsKey(tabControl.SelectedTab))
                 {
-                    activeDataGridView = dataGridViewEmployees;
-                    nameTable = "Сотрудников";
+                    (activeDataGridView, nameTable) = tabPageMappings[tabControl.SelectedTab];
+                }
+                else
+                {
+                    // Если вкладка не найдена в словаре (что маловероятно), можно добавить обработку ошибки или другое действие по умолчанию.
+                    Console.WriteLine("Выбранная вкладка не поддерживается");
                 }
 
-                else if (tabControl.SelectedTab == tabPageProducts)
-                {
-                    activeDataGridView = dataGridViewProducts;
-                    nameTable = "Продукции";
-                }
-
-                else if (tabControl.SelectedTab == tabPageOrders)
-                {
-                    activeDataGridView = dataGridViewOrders;
-                    nameTable = "Заказов";
-                }
-
-                else if (tabControl.SelectedTab == tabPageDeliveries)
-                {
-                    activeDataGridView = dataGridViewDeliveries;
-                    nameTable = "Поставок";
-                }
 
                 using (FileStream fs = new FileStream(saveFileDialog1.FileName, FileMode.Create))
                 {
@@ -842,6 +838,8 @@ namespace MilkManage_App.Forms
                     doc.Add(table);
                     doc.Close();
                     writer.Close();
+
+                    MessageBox.Show("Таблица успешно сохранена!", "Успех!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

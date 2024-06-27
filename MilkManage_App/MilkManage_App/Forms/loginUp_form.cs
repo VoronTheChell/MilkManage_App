@@ -55,73 +55,53 @@ namespace MilkManage_App
             var loginUser = textBox_login.Text;
             var passUser = textBox_password.Text;
 
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            DataTable table = new DataTable();
-
-            string querystring = $"select * from Users where username = '{loginUser}' and password = '{passUser}'";
+            string querystring = "SELECT role FROM Users WHERE username = @username AND password = @password";
 
             SqlCommand command = new SqlCommand(querystring, dataBase.GetConnection());
+            command.Parameters.AddWithValue("@username", loginUser);
+            command.Parameters.AddWithValue("@password", passUser);
 
-            // Сommand Code
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
+            dataBase.openConnection();
 
-            admin_Form adminForm = new admin_Form();
-            directorForm directorForm = new directorForm();
-            loaderForm loaderForm = new loaderForm();
+            string status = (string)command.ExecuteScalar();
 
-            if (table.Rows.Count == 1)
+            dataBase.closeConnection();
+
+            if (status != null)
             {
                 MessageBox.Show("Вы успешно вошли!", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                takeIDUser(textBox_login.Text, textBox_password.Text);
+                takeIDUser(loginUser, passUser);
 
                 textBox_login.Text = "";
                 textBox_password.Text = "";
 
-                dataBase.openConnection();
-                string checkStatus = $"SELECT role from Users where username like '{loginUser}'";
-                SqlCommand commandCheck = new SqlCommand(checkStatus, dataBase.GetConnection());
-                string status = ((string)commandCheck.ExecuteScalar());
-
-                Console.WriteLine(status);
+                Form formToShow = null;
 
                 switch (status)
                 {
                     case "администратор":
-                        {
-                            this.Hide();
-                            adminForm.ShowDialog();
-                            this.Show();
-                            break;
-                        }
-
+                        formToShow = new admin_Form();
+                        break;
                     case "директор":
-                        {
-                            this.Hide();
-                            directorForm.ShowDialog();
-                            this.Show();
-                            break;
-                        }
-
+                        formToShow = new directorForm();
+                        break;
                     case "грузчик":
-                        {
-                            this.Hide();
-                            loaderForm.ShowDialog();
-                            this.Show();
-                            break;
-                        }
+                        formToShow = new loaderForm();
+                        break;
+                    default:
+                        MessageBox.Show("Роль пользователя не распознана", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                 }
 
-
-
+                this.Hide();
+                formToShow.ShowDialog();
+                this.Show();
             }
-
             else
             {
-                MessageBox.Show("Ошибка входа!\nТого пользователя не существует или вы вели не верный пароль!", "Ошибка...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Ошибка входа!\nТакого пользователя не существует или вы ввели неверный пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
 
         }
 
