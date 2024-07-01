@@ -1,0 +1,43 @@
+-- Таблица пользователей
+INSERT INTO Users (username, password, role)
+VALUES 
+('director1', 'passwordHash1', 'director'),
+('worker1', 'passwordHash2', 'worker'),
+('admin1', 'passwordHash3', 'admin');
+
+-- Таблица сотрудников
+INSERT INTO Employees (name, position, start_date)
+VALUES 
+('John Doe', 'Manager', '2023-01-15'),
+('Jane Smith', 'Worker', '2023-02-20'),
+('Mike Johnson', 'Technician', '2023-03-10');
+
+-- Таблица продукции
+INSERT INTO Products (name, description, price)
+VALUES 
+('Milk', 'Fresh milk', 1.50),
+('Cheese', 'Aged cheese', 3.75),
+('Yogurt', 'Natural yogurt', 2.00);
+
+-- Таблица заказов
+INSERT INTO Orders (customer_name, order_date, status, total_amount)
+VALUES 
+('Customer A', '2023-05-01', 'in production', 150.00),
+('Customer B', '2023-05-02', 'shipped', 75.00),
+('Customer C', '2023-05-03', 'delivered', 200.00);
+
+-- Таблица деталей заказа
+INSERT INTO OrderDetails (order_id, product_id, quantity)
+VALUES 
+(1, 1, 100),
+(1, 2, 20),
+(2, 3, 50),
+(3, 1, 80),
+(3, 2, 10);
+
+-- Таблица поставок
+INSERT INTO Deliveries (order_id, delivery_date, status, updated_by)
+VALUES 
+(1, '2023-05-05', 'in transit', 3),
+(2, '2023-05-06', 'delivered', 3),
+(3, '2023-05-07', 'in transit', 3);

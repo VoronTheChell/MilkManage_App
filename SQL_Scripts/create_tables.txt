@@ -1,0 +1,43 @@
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY IDENTITY,
+    username NVARCHAR(50) NOT NULL,
+    password NVARCHAR(256) NOT NULL,
+    role NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY IDENTITY,
+    name NVARCHAR(100) NOT NULL,
+    position NVARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL
+);
+
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY IDENTITY,
+    name NVARCHAR(100) NOT NULL,
+    description NVARCHAR(255),
+    price DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY IDENTITY,
+    customer_name NVARCHAR(100) NOT NULL,
+    order_date DATE NOT NULL,
+    status NVARCHAR(50) NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE OrderDetails (
+    order_detail_id INT PRIMARY KEY IDENTITY,
+    order_id INT FOREIGN KEY REFERENCES Orders(order_id),
+    product_id INT FOREIGN KEY REFERENCES Products(product_id),
+    quantity INT NOT NULL
+);
+
+CREATE TABLE Deliveries (
+    delivery_id INT PRIMARY KEY IDENTITY,
+    order_id INT FOREIGN KEY REFERENCES Orders(order_id),
+    delivery_date DATE NOT NULL,
+    status NVARCHAR(50) NOT NULL,
+    updated_by INT FOREIGN KEY REFERENCES Users(user_id)
+);

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MyLoginApp</string>
+
+    <string name="col1">Название</string>
+    <string name="col2">Описание</string>
+    <string name="col3">Цена (.руб)</string>
+
+    <string name="row1Name" translatable="false">Молоко</string>
+    <string name="row1Desc" translatable="false">По факту цистерна молока, в несколько тонн.</string>
+    <string name="row1Values" translatable="false">15000</string>
+
+    <string name="row2Name" translatable="false">Сыр "Роккфор"</string>
+    <string name="row2Desc" translatable="false">Элитарный сыр, по выгодной цене.</string>
+    <string name="row2Values" translatable="false">3750</string>
+
+    <string name="row3Name" translatable="false">Йогурт со вкусом "Мёда"</string>
+    <string name="row3Desc" translatable="false">Натуральный йогурт, с тёмным прошлым...</string>
+    <string name="row3Values" translatable="false">350</string>
+
+
+</resources>
